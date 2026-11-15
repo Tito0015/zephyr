@@ -24,6 +24,7 @@ concurrency:
 
 jobs:
   do-not-merge:
+    if: github.repository == 'zephyrproject-rtos/zephyr'
     name: Prevent Merging
     runs-on: ubuntu-24.04
     timeout-minutes: 30

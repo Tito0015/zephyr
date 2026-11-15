@@ -7,6 +7,7 @@ permissions:
 
 jobs:
   contribs:
+    if: github.repository == 'zephyrproject-rtos/zephyr'
     runs-on: ubuntu-24.04
     timeout-minutes: 15
     permissions:
