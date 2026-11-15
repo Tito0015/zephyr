@@ -1,0 +1,42 @@
+# Veraptos structural C/C++ queries (fork drop-in).
+# SPDX-License-Identifier: Apache-2.0
+
+name: Veraptos Zephyr kernel invariants (C/C++)
+
+on:
+  pull_request:
+    paths:
+      - 'kernel/**'
+      - 'drivers/**'
+      - 'subsys/**'
+      - 'subsys/net/lib/ocpp/**'
+      - '.github/codeql/veraptos-zephyr/**'
+      - '.github/workflows/codeql-veraptos-zephyr.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  codeql-zephyr-structural:
+    name: Veraptos structural queries (cpp)
+    runs-on: ubuntu-24.04
+    timeout-minutes: 120
+    permissions:
+      security-events: write
+      contents: read
+    steps:
+      - name: Checkout
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+
+      - name: Initialize CodeQL
+        uses: github/codeql-action/init@9b3254085494b55a0f7c4c2b3d2d52cc712ce370 # v4.39.1
+        with:
+          languages: cpp
+          build-mode: none
+          queries: +./.github/codeql/veraptos-zephyr
+
+      - name: Perform CodeQL Analysis
+        uses: github/codeql-action/analyze@9b3254085494b55a0f7c4c2b3d2d52cc712ce370 # v4.39.1
+        with:
+          category: "/language:cpp-veraptos-kernel-invariants"
